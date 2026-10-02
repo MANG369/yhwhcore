@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>yhwhcore — Web3 Multiversal Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090b10;
+      --card-bg: #111522;
+      --border: #1d2538;
+      --cyan: #00f0ff;
+      --purple: #7000ff;
+      --green: #00ff88;
+      --red: #ff0055;
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg-dark); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 24px; }
+    
+    header { max-width: 1200px; margin: 0 auto 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .logo h1 { font-family: 'Orbitron', sans-serif; color: var(--cyan); font-size: 1.8rem; letter-spacing: 2px; }
+    .logo span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+
+    .btn { background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); }
+    .card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
+
+    .metric-box { background: rgba(255,255,255,0.02); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .metric-label { font-size: 0.85rem; color: var(--text-muted); }
+    .metric-value { font-family: 'Orbitron', sans-serif; font-weight: 600; color: var(--cyan); }
+
+    input { width: 100%; background: #05070a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; outline: none; }
+    input:focus { border-color: var(--cyan); }
+
+    footer { max-width: 1200px; margin: 40px auto 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <h1>yhwhcore</h1>
+      <span>SISTEMA DISTRIBUIDO WEB3</span>
+    </div>
+    <button id="btnWallet" class="btn" onclick="connectWallet()">Conectar TronLink</button>
+  </header>
+
+  <div class="grid">
+    <!-- MÓDULO 1: TOKEN -->
+    <div class="card">
+      <h2>1. Token $YHWH</h2>
+      <div class="metric-box">
+        <span class="metric-label">Balance en Billetera</span>
+        <span id="lblTokenBalance" class="metric-value">0.00 YHWH</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Allowance (Staking)</span>
+        <span id="lblAllowance" class="metric-value">0.00 YHWH</span>
+      </div>
+      <input type="number" id="inputApprove" placeholder="Monto a autorizar">
+      <button class="btn" onclick="execApprove()">Aprobar Contrato</button>
+    </div>
+
+    <!-- MÓDULO 2: STAKING -->
+    <div class="card">
+      <h2>2. Vault de Staking</h2>
+      <div class="metric-box">
+        <span class="metric-label">Monto Bloqueado</span>
+        <span id="lblStaked" class="metric-value">0.00 YHWH</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Ganancias Pendientes</span>
+        <span id="lblRewards" class="metric-value" style="color: var(--green);">0.00 YHWH</span>
+      </div>
+      <input type="number" id="inputDeposit" placeholder="Monto a depositar">
+      <div style="display: flex; gap: 8px;">
+        <button class="btn" style="flex: 1;" onclick="execDeposit()">Depositar</button>
+        <button class="btn" style="flex: 1; background: var(--green);" onclick="execClaim()">Reclamar</button>
+      </div>
+    </div>
+
+    <!-- MÓDULO 3: GOBERNANZA -->
+    <div class="card">
+      <h2>3. Gobernanza DAO</h2>
+      <div class="metric-box">
+        <span class="metric-label">Estatus de Miembro</span>
+        <span id="lblMember" class="metric-value" style="color: var(--text-muted);">Sin verificar</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Propuesta Activa: #001 — Distribución de Fondos de Tesorería</p>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn" style="flex: 1; background: rgba(0,255,136,0.2); color: var(--green);" onclick="execVote(1, true)">A Favor</button>
+        <button class="btn" style="flex: 1; background: rgba(255,0,85,0.2); color: var(--red);" onclick="execVote(1, false)">En Contra</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>yhwhcore Platform — Tron Network Smart Contracts</p>
+    <p style="margin-top: 4px;">Contrato Staking: <code>TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp</code></p>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      TOKEN: "TU_DIRECCION_TOKEN_TRC20",
+      STAKING: "TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp",
+      GOVERNANCE: "TU_DIRECCION_GOBERNANZA"
+    };
+
+    let walletAddress = null;
+    let tokenContract, stakingContract, govContract;
+
+    async function connectWallet() {
+      if (window.tronWeb && window.tronWeb.ready) {
+        walletAddress = window.tronWeb.defaultAddress.base58;
+        document.getElementById('btnWallet').innerText = `${walletAddress.slice(0, 5)}...${walletAddress.slice(-4)}`;
+        
+        // Instanciar Contratos
+        tokenContract = await window.tronWeb.contract().at(CONFIG.TOKEN);
+        stakingContract = await window.tronWeb.contract().at(CONFIG.STAKING);
+        govContract = await window.tronWeb.contract().at(CONFIG.GOVERNANCE);
+
+        updateUI();
+        setInterval(updateUI, 10000);
+      } else {
+        alert("Asegúrate de tener TronLink instalado y desbloqueado.");
+      }
+    }
+
+    async function updateUI() {
+      if (!walletAddress) return;
+      try {
+        const bal = await tokenContract.balanceOf(walletAddress).call();
+        const allow = await tokenContract.allowance(walletAddress, CONFIG.STAKING).call();
+        const staked = await stakingContract.getStakedBalance(walletAddress).call();
+        const rewards = await stakingContract.getPendingRewards(walletAddress).call();
+
+        document.getElementById('lblTokenBalance').innerText = `${window.tronWeb.fromSun(bal)} YHWH`;
+        document.getElementById('lblAllowance').innerText = `${window.tronWeb.fromSun(allow)} YHWH`;
+        document.getElementById('lblStaked').innerText = `${window.tronWeb.fromSun(staked)} YHWH`;
+        document.getElementById('lblRewards').innerText = `${window.tronWeb.fromSun(rewards)} YHWH`;
+      } catch (err) {
+        console.error("Error al actualizar UI:", err);
+      }
+    }
+
+    async function execApprove() {
+      const val = document.getElementById('inputApprove').value;
+      if (!val) return;
+      await tokenContract.approve(CONFIG.STAKING, window.tronWeb.toSun(val)).send();
+      updateUI();
+    }
+
+    async function execDeposit() {
+      const val = document.getElementById('inputDeposit').value;
+      if (!val) return;
+      await stakingContract.deposit(window.tronWeb.toSun(val)).send({ feeLimit: 100000000 });
+      updateUI();
+    }
+
+    async function execClaim() {
+      await stakingContract.claimRewards().send({ feeLimit: 100000000 });
+      updateUI();
+    }
+
+    async function execVote(id, support) {
+      await govContract.vote(id, support).send({ feeLimit: 50000000 });
+    }
+  </script>
+</body>
+</html>
