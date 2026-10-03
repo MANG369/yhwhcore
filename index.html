@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>yhwhcore — Web3 Multiversal Portal</title>
+  <title>yhwhcore — Multiversal Web3 Ecosystem</title>
   
-  <!-- Evita el error favicon 404 de la consola -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-  
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --bg-dark: #090b10;
@@ -16,6 +15,7 @@
       --border: #1d2538;
       --cyan: #00f0ff;
       --purple: #7000ff;
+      --gold: #ffd700;
       --green: #00ff88;
       --red: #ff0055;
       --text: #e2e8f0;
@@ -26,17 +26,25 @@
     body { background: var(--bg-dark); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 24px; }
     
     header { max-width: 1200px; margin: 0 auto 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); }
     .logo h1 { font-family: 'Orbitron', sans-serif; color: var(--cyan); font-size: 1.8rem; letter-spacing: 2px; }
-    .logo span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+    .logo span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; display: block; }
 
     .btn { background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); }
-    .card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
+    
+    .card-header { display: flex; align-items: center; justify-content: space-between; }
+    .card-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
+    
+    /* ESTILOS DE LOS ICONOS Y MEDALLAS */
+    .token-badge { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #000; padding: 2px; transition: border-color 0.3s, transform 0.3s; }
+    .token-badge:hover { border-color: var(--cyan); transform: scale(1.08); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+    .token-badge.gold { border-color: var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.3); }
 
     .metric-box { background: rgba(255,255,255,0.02); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
     .metric-label { font-size: 0.85rem; color: var(--text-muted); }
@@ -45,171 +53,165 @@
     input { width: 100%; background: #05070a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; outline: none; }
     input:focus { border-color: var(--cyan); }
 
-    footer { max-width: 1200px; margin: 40px auto 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+    footer { max-width: 1200px; margin: 40px auto 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .footer-badges { display: flex; gap: 12px; margin-top: 10px; }
+    .footer-badges img { width: 28px; height: 28px; border-radius: 50%; opacity: 0.8; transition: opacity 0.2s; }
+    .footer-badges img:hover { opacity: 1; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="logo">
-      <h1>yhwhcore</h1>
-      <span>SISTEMA DISTRIBUIDO WEB3 — MAINNET</span>
+      <!-- Icono Principal YHWHcoin Gold -->
+      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+      <div>
+        <h1>yhwhcore</h1>
+        <span>SISTEMA DISTRIBUIDO WEB3 — MAINNET</span>
+      </div>
     </div>
     <button id="btnWallet" class="btn" onclick="connectWallet()">Conectar TronLink</button>
   </header>
 
   <div class="grid">
-    <!-- MÓDULO 1: TOKEN TRC-20 YHWH -->
+    <!-- MÓDULO 1: TOKEN TRC-10 OFICIAL -->
     <div class="card">
-      <h2>1. Token $YHWH (TRC-20)</h2>
-      <div class="metric-box">
-        <span class="metric-label">Símbolo / Decimales</span>
-        <span id="lblTokenDetails" class="metric-value">YHWH (6 Dec)</span>
+      <div class="card-header">
+        <h2>1. YHWHcoin (TRC-10)</h2>
+        <!-- Insignia Moneda Dorada YHWH -->
+        <img class="token-badge gold" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" alt="YHWH TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       </div>
       <div class="metric-box">
-        <span class="metric-label">Balance en Billetera</span>
-        <span id="lblTokenBalance" class="metric-value">0.00 YHWH</span>
-      </div>
-      <input type="number" id="inputBurn" placeholder="Monto a quemar (burn)">
-      <button class="btn" style="background: var(--red); color: #fff;" onclick="execBurn()">Quemar Tokens (Burn)</button>
-    </div>
-
-    <!-- MÓDULO 2: TOKEN GOVERNANCE / TESORERÍA -->
-    <div class="card">
-      <h2>2. Tesorería & Gobernanza</h2>
-      <div class="metric-box">
-        <span class="metric-label">Balance Gobernanza</span>
-        <span id="lblGovBalance" class="metric-value">0.00 GOV</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-label">Billetera de Fondos</span>
-        <span id="lblFundsWallet" class="metric-value" style="font-size: 0.75rem;">Cargando...</span>
-      </div>
-      <input type="text" id="inputRecipient" placeholder="Dirección destino (T...)">
-      <input type="number" id="inputTransferAmount" placeholder="Monto a transferir">
-      <button class="btn" onclick="execTransferGov()">Transferir Fondos</button>
-    </div>
-
-    <!-- MÓDULO 3: TOKEN TRC-10 -->
-    <div class="card">
-      <h2>3. Asset TRC-10 (#1002628)</h2>
-      <div class="metric-box">
-        <span class="metric-label">ID de Token</span>
+        <span class="metric-label">ID de Registro</span>
         <span class="metric-value">1002628</span>
       </div>
       <div class="metric-box">
-        <span class="metric-label">Balance Nativo TRC-10</span>
+        <span class="metric-label">Estatus TRONSCAN</span>
+        <span class="metric-value" style="color: var(--green);">Aprobado</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Balance Disponible</span>
         <span id="lblTRC10Balance" class="metric-value">0 YHWH</span>
       </div>
       <input type="text" id="inputTRC10Dest" placeholder="Dirección destino (T...)">
-      <input type="number" id="inputTRC10Amount" placeholder="Cantidad de tokens">
-      <button class="btn" style="background: var(--green); color: #000;" onclick="execSendTRC10()">Enviar TRC-10</button>
+      <input type="number" id="inputTRC10Amount" placeholder="Cantidad de YHWH">
+      <button class="btn" onclick="execSendTRC10()">Enviar TRC-10</button>
+    </div>
+
+    <!-- MÓDULO 2: TOKEN TRC-20 APROBADO -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2. YHWHcoin (TRC-20)</h2>
+        <!-- Icono Isotipo Geométrico -->
+        <img class="token-badge" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwh_symbol.png" alt="YHWH TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Contrato Verificado</span>
+        <span class="metric-value" style="font-size: 0.75rem;">THjYdX7e...DaTTZL6</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Balance TRC-20</span>
+        <span id="lblTRC20Balance" class="metric-value">0.00 YHWH</span>
+      </div>
+      <input type="text" id="inputTRC20Dest" placeholder="Dirección destino (T...)">
+      <input type="number" id="inputTRC20Amount" placeholder="Monto a transferir">
+      <button class="btn" style="background: var(--green); color: #000;" onclick="execSendTRC20()">Transferir TRC-20</button>
+    </div>
+
+    <!-- MÓDULO 3: CONTRATO DE VAULT / STAKING -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3. Vault de Staking</h2>
+        <!-- Icono Cubo / Multifoco -->
+        <img class="token-badge" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwh_cube.png" alt="Staking Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Contrato Vault</span>
+        <span class="metric-value" style="font-size: 0.75rem;">TGaGtugb...Answ6Cp</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Estado de Contrato</span>
+        <span class="metric-value" style="color: var(--green);">Activo</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Módulo listo para interacción y llamadas de ejecución on-chain.</p>
     </div>
   </div>
 
   <footer>
-    <p>yhwhcore Platform — TRON Mainnet Architecture</p>
-    <p style="margin-top: 4px;">TRC-20 Contract: <code>TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp</code> | Gov Contract: <code>TZ4J57j9ETxpAtGTV7q7eqf289pQsSp3bQ</code></p>
+    <p>yhwhcore Platform — TRON Mainnet Ecosystem</p>
+    
+    <!-- Muestra de medallas e insignias comunitarias e institucionales -->
+    <div class="footer-badges">
+      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/comuna_paz.png" title="Comuna La Paz" alt="Comuna La Paz">
+      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/sun_symbol.png" title="Sun Symbol" alt="Sun Symbol">
+      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" title="YHWHcoin" alt="YHWHcoin">
+    </div>
   </footer>
 
   <script>
-    // === CONFIGURACIÓN OFICIAL DE CONTRATOS ===
     const CONFIG = {
-      TRC20_ADDRESS: "TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp",
-      GOV_ADDRESS: "TZ4J57j9ETxpAtGTV7q7eqf289pQsSp3bQ",
-      TRC10_ID: "1002628"
+      TRC10_ID: "1002628",
+      TRC20_APPROVED: "THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6",
+      VAULT_STAKING: "TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp"
     };
 
-    // ABIs Oficiales
     const TRC20_ABI = [
       { "constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "", "type": "uint256"}], "type": "function" },
-      { "constant": false, "inputs": [{"name": "_value", "type": "uint256"}], "name": "burn", "outputs": [{"name": "success", "type": "bool"}], "type": "function" },
-      { "constant": true, "inputs": [], "name": "symbol", "outputs": [{"name": "", "type": "string"}], "type": "function" }
-    ];
-
-    const GOV_ABI = [
-      { "constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function" },
-      { "constant": true, "inputs": [], "name": "fundsWallet", "outputs": [{"name": "", "type": "address"}], "type": "function" },
-      { "constant": false, "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "transfer", "outputs": [{"name": "success", "type": "bool"}], "type": "function" }
+      { "constant": false, "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "transfer", "outputs": [{"name": "", "type": "bool"}], "type": "function" }
     ];
 
     let userAddress = null;
-    let trc20Contract, govContract;
+    let trc20Contract;
 
     async function connectWallet() {
       if (window.tronWeb && window.tronWeb.ready) {
         userAddress = window.tronWeb.defaultAddress.base58;
         document.getElementById('btnWallet').innerText = `${userAddress.slice(0, 5)}...${userAddress.slice(-4)}`;
         
-        // Instanciar contratos con TronWeb
-        trc20Contract = await window.tronWeb.contract(TRC20_ABI, CONFIG.TRC20_ADDRESS);
-        govContract = await window.tronWeb.contract(GOV_ABI, CONFIG.GOV_ADDRESS);
+        trc20Contract = await window.tronWeb.contract(TRC20_ABI, CONFIG.TRC20_APPROVED);
 
         updateUI();
         setInterval(updateUI, 10000);
       } else {
-        alert("Asegúrate de tener la extensión TronLink activa e iniciada.");
+        alert("Asegúrate de tener TronLink activo e iniciado.");
       }
     }
 
     async function updateUI() {
       if (!userAddress) return;
       try {
-        // 1. Datos TRC-20
+        // Consultar TRC-10
+        const account = await window.tronWeb.trx.getAccount(userAddress);
+        const trc10List = account.assetV2 || [];
+        const token10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
+        document.getElementById('lblTRC10Balance').innerText = `${token10 ? token10.value : 0} YHWH`;
+
+        // Consultar TRC-20
         const bal20 = await trc20Contract.balanceOf(userAddress).call();
-        document.getElementById('lblTokenBalance').innerText = `${(bal20 / 1e6).toFixed(2)} YHWH`;
-
-        // 2. Datos Gobernanza
-        const balGov = await govContract.balanceOf(userAddress).call();
-        const fundsWallet = await govContract.fundsWallet().call();
-        const fundsBase58 = window.tronWeb.address.fromHex(fundsWallet);
-
-        document.getElementById('lblGovBalance').innerText = `${(balGov / 1e6).toFixed(2)} GOV`;
-        document.getElementById('lblFundsWallet').innerText = `${fundsBase58.slice(0, 6)}...${fundsBase58.slice(-4)}`;
-
-        // 3. Datos TRC-10 (Nativo de la cuenta)
-        const accountInfo = await window.tronWeb.trx.getAccount(userAddress);
-        const trc10List = accountInfo.assetV2 || [];
-        const yhwhTRC10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
-        const trc10Balance = yhwhTRC10 ? yhwhTRC10.value : 0;
-
-        document.getElementById('lblTRC10Balance').innerText = `${trc10Balance} YHWH`;
-      } catch (err) {
-        console.error("Error actualizando datos de contratos:", err);
+        document.getElementById('lblTRC20Balance').innerText = `${(bal20 / 1e6).toFixed(2)} YHWH`;
+      } catch (e) {
+        console.error("Error leyendo balances:", e);
       }
-    }
-
-    // Funciones Ejecutables
-    async function execBurn() {
-      const val = document.getElementById('inputBurn').value;
-      if (!val || val <= 0) return alert("Ingresa una cantidad válida.");
-      try {
-        const amountSun = val * 1e6;
-        const tx = await trc20Contract.burn(amountSun).send({ feeLimit: 100000000 });
-        alert(`¡Tokens quemados con éxito! Tx ID: ${tx}`);
-        updateUI();
-      } catch (e) { console.error(e); }
-    }
-
-    async function execTransferGov() {
-      const to = document.getElementById('inputRecipient').value;
-      const val = document.getElementById('inputTransferAmount').value;
-      if (!to || !val) return alert("Completa la dirección y el monto.");
-      try {
-        const amountSun = val * 1e6;
-        const tx = await govContract.transfer(to, amountSun).send({ feeLimit: 100000000 });
-        alert(`¡Transferencia ejecutada! Tx ID: ${tx}`);
-        updateUI();
-      } catch (e) { console.error(e); }
     }
 
     async function execSendTRC10() {
       const to = document.getElementById('inputTRC10Dest').value;
-      const val = document.getElementById('inputTRC10Amount').value;
-      if (!to || !val) return alert("Completa la dirección y la cantidad.");
+      const amount = document.getElementById('inputTRC10Amount').value;
+      if (!to || !amount) return alert("Completa la dirección y el monto.");
       try {
-        const tx = await window.tronWeb.trx.sendToken(to, parseInt(val), CONFIG.TRC10_ID);
-        alert(`¡Token TRC-10 enviado! Tx ID: ${tx.txid || tx}`);
+        const tx = await window.tronWeb.trx.sendToken(to, parseInt(amount), CONFIG.TRC10_ID);
+        alert(`¡TRC-10 enviado con éxito! Tx ID: ${tx.txid || tx}`);
+        updateUI();
+      } catch (e) { console.error(e); }
+    }
+
+    async function execSendTRC20() {
+      const to = document.getElementById('inputTRC20Dest').value;
+      const amount = document.getElementById('inputTRC20Amount').value;
+      if (!to || !amount) return alert("Completa la dirección y el monto.");
+      try {
+        const tx = await trc20Contract.transfer(to, amount * 1e6).send({ feeLimit: 100000000 });
+        alert(`¡TRC-20 transferido con éxito! Tx ID: ${tx}`);
         updateUI();
       } catch (e) { console.error(e); }
     }
