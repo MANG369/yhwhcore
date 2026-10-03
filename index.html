@@ -41,7 +41,6 @@
     .card-header { display: flex; align-items: center; justify-content: space-between; }
     .card-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
     
-    /* ESTILOS DE LOS ICONOS Y MEDALLAS */
     .token-badge { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #000; padding: 2px; transition: border-color 0.3s, transform 0.3s; }
     .token-badge:hover { border-color: var(--cyan); transform: scale(1.08); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
     .token-badge.gold { border-color: var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.3); }
@@ -63,11 +62,11 @@
 
   <header>
     <div class="logo">
-      <!-- Icono Principal YHWHcoin Gold -->
-      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+      <!-- Icono 1 -->
+      <img src="assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       <div>
         <h1>yhwhcore</h1>
-        <span>SISTEMA DISTRIBUIDO WEB3 — MAINNET</span>
+        <span>SISTEMA DE DISTRIBUCION YHWHcore WEB3 — MAINNET</span>
       </div>
     </div>
     <button id="btnWallet" class="btn" onclick="connectWallet()">Conectar TronLink</button>
@@ -78,8 +77,8 @@
     <div class="card">
       <div class="card-header">
         <h2>1. YHWHcoin (TRC-10)</h2>
-        <!-- Insignia Moneda Dorada YHWH -->
-        <img class="token-badge gold" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" alt="YHWH TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+        <!-- Icono 2: yhwh_trc10.png -->
+        <img class="token-badge gold" src="assets/yhwh_trc10.png" alt="YHWH TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       </div>
       <div class="metric-box">
         <span class="metric-label">ID de Registro</span>
@@ -98,12 +97,12 @@
       <button class="btn" onclick="execSendTRC10()">Enviar TRC-10</button>
     </div>
 
-    <!-- MÓDULO 2: TOKEN TRC-20 APROBADO -->
+    <!-- MÓDULO 2: YHWHcoin  APROBADO -->
     <div class="card">
       <div class="card-header">
-        <h2>2. YHWHcoin (TRC-20)</h2>
-        <!-- Icono Isotipo Geométrico -->
-        <img class="token-badge" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwh_symbol.png" alt="YHWH TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
+        <h2>2. YHWHcoin </h2>
+        <!-- Icono 3 -->
+        <img class="token-badge" src="assets/yhwh_symbol.png" alt="YHWH TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
       </div>
       <div class="metric-box">
         <span class="metric-label">Contrato Verificado</span>
@@ -122,8 +121,8 @@
     <div class="card">
       <div class="card-header">
         <h2>3. Vault de Staking</h2>
-        <!-- Icono Cubo / Multifoco -->
-        <img class="token-badge" src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwh_cube.png" alt="Staking Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
+        <!-- Icono 4 -->
+        <img class="token-badge" src="assets/yhwh_cube.png" alt="Staking Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
       </div>
       <div class="metric-box">
         <span class="metric-label">Contrato Vault</span>
@@ -139,12 +138,10 @@
 
   <footer>
     <p>yhwhcore Platform — TRON Mainnet Ecosystem</p>
-    
-    <!-- Muestra de medallas e insignias comunitarias e institucionales -->
     <div class="footer-badges">
-      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/comuna_paz.png" title="Comuna La Paz" alt="Comuna La Paz">
-      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/sun_symbol.png" title="Sun Symbol" alt="Sun Symbol">
-      <img src="https://raw.githubusercontent.com/MANG369/yhwhcore/main/assets/yhwhcoin_gold.png" title="YHWHcoin" alt="YHWHcoin">
+      <img src="assets/comuna_paz.png" title="Comuna La Paz" alt="Comuna La Paz">
+      <img src="assets/sun_symbol.png" title="Sun Symbol" alt="Sun Symbol">
+      <img src="assets/yhwhcoin_gold.png" title="YHWHcoin" alt="YHWHcoin">
     </div>
   </footer>
 
@@ -180,13 +177,11 @@
     async function updateUI() {
       if (!userAddress) return;
       try {
-        // Consultar TRC-10
         const account = await window.tronWeb.trx.getAccount(userAddress);
         const trc10List = account.assetV2 || [];
         const token10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
         document.getElementById('lblTRC10Balance').innerText = `${token10 ? token10.value : 0} YHWH`;
 
-        // Consultar TRC-20
         const bal20 = await trc20Contract.balanceOf(userAddress).call();
         document.getElementById('lblTRC20Balance').innerText = `${(bal20 / 1e6).toFixed(2)} YHWH`;
       } catch (e) {
