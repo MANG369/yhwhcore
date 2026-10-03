@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>yhwhcore — Multiversal Web3 Portal</title>
   
+  <!-- Evita el error favicon.ico 404 -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
@@ -81,6 +82,7 @@
 
   <header>
     <div class="logo">
+      <!-- Icono 1: Logo Principal -->
       <img src="./assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       <div>
         <h1>yhwhcore</h1>
@@ -114,6 +116,7 @@
     <div class="card">
       <div class="card-header">
         <h2>1. YHWHcoin (TRC-10)</h2>
+        <!-- Icono 2: TRC-10 -->
         <img class="token-badge" src="./assets/yhwh_trc10.png" alt="TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       </div>
       <div class="metric-box">
@@ -141,6 +144,7 @@
     <div class="card">
       <div class="card-header">
         <h2>2. YHWHcoin (TRC-20)</h2>
+        <!-- Icono 3: TRC-20 -->
         <img class="token-badge" src="./assets/yhwh_symbol.png" alt="TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
       </div>
       <div class="metric-box">
@@ -168,6 +172,7 @@
     <div class="card">
       <div class="card-header">
         <h2>3. Vault Staking</h2>
+        <!-- Icono 4: Vault -->
         <img class="token-badge" src="./assets/yhwh_cube.png" alt="Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
       </div>
       <div class="metric-box">
@@ -192,10 +197,10 @@
       </div>
       <div class="metric-box">
         <span class="metric-label">Propuesta Activa</span>
-        <span class="metric-value" style="font-size:0.8rem;">#001 — Distribución Tesorería</span>
+        <span class="metric-value" style="font-size:0.8rem;">#001 — Tesorería</span>
       </div>
       <div class="metric-box">
-        <span class="metric-label">Estado de Votación</span>
+        <span class="metric-label">Estado Votación</span>
         <span class="metric-value" style="color:var(--green);">Abierta</span>
       </div>
       <div style="display: flex; gap: 8px; margin-top: auto;">
@@ -209,7 +214,7 @@
       <div class="card-header">
         <div>
           <h2>5. Galería & Coleccionables NFT (TRC-721)</h2>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Activos digitales únicos registrados en la red TRON.</p>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Activos digitales registrados en la red TRON.</p>
         </div>
         <button class="btn" style="background: linear-gradient(135deg, var(--gold), var(--cyan)); color: #000;" onclick="execMintNFT()">Mintear Nuevo NFT</button>
       </div>
@@ -228,7 +233,7 @@
         <div class="nft-card">
           <img src="./assets/sun_symbol.png" alt="NFT Sun" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
           <span class="nft-title">Solar Core #003</span>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">Comunidad La Paz</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Comuna La Paz</span>
         </div>
       </div>
     </div>
@@ -247,6 +252,7 @@
 
   <script>
     const CONFIG = {
+      TRONGRID_API_KEY: "cf3e2b3b-8d92-4cf9-822a-6928a494b60a",
       TRC10_ID: "1002628",
       TRC20_APPROVED: "THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6",
       VAULT_STAKING: "TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp"
@@ -254,6 +260,7 @@
 
     let userAddress = null;
     let rawTRC10Bal = 0, rawTRC20Bal = 0;
+    let isUpdating = false;
 
     function showToast(msg, txHash = null) {
       const container = document.getElementById('toast-container');
@@ -267,9 +274,15 @@
     async function connectWallet() {
       if (window.tronWeb && window.tronWeb.ready) {
         userAddress = window.tronWeb.defaultAddress.base58;
+        
+        if (window.tronWeb.setHeader) {
+          window.tronWeb.setHeader({ "TRON-PRO-HEADER": CONFIG.TRONGRID_API_KEY });
+        }
+
         document.getElementById('btnWallet').innerText = `${userAddress.slice(0, 5)}...${userAddress.slice(-4)}`;
+        
         updateUI();
-        setInterval(updateUI, 10000);
+        setInterval(updateUI, 30000); // 30s de refresco para prevenir error HTTP 429
         showToast("Billetera conectada exitosamente.");
       } else {
         showToast("Error: Instala o desbloquea TronLink.");
@@ -277,28 +290,45 @@
     }
 
     async function updateUI() {
-      if (!userAddress) return;
-      try {
-        const account = await window.tronWeb.trx.getAccount(userAddress);
-        const resources = await window.tronWeb.trx.getAccountResources(userAddress);
+      if (!userAddress || isUpdating) return;
+      isUpdating = true;
 
-        // Recursos
-        document.getElementById('resTRX').innerText = (account.balance / 1e6 || 0).toFixed(2);
+      try {
+        // Consultas directas mediante API REST de TronGrid usando TRON-PRO-HEADER
+        const accountRes = await fetch(`https://api.trongrid.io/v1/accounts/${userAddress}`, {
+          headers: { 'TRON-PRO-HEADER': CONFIG.TRONGRID_API_KEY }
+        });
+        const accountData = await accountRes.json();
+
+        if (accountData.data && accountData.data.length > 0) {
+          const acc = accountData.data[0];
+
+          // 1. Balance TRX
+          document.getElementById('resTRX').innerText = (acc.balance / 1e6 || 0).toFixed(2);
+
+          // 2. Balance TRC-10
+          const trc10List = acc.assetV2 || [];
+          const token10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
+          rawTRC10Bal = token10 ? token10.value : 0;
+          document.getElementById('lblTRC10Balance').innerText = `${rawTRC10Bal} YHWH`;
+
+          // 3. Balance TRC-20
+          const trc20Tokens = acc.trc20 || [];
+          const matchedToken = trc20Tokens.find(t => t[CONFIG.TRC20_APPROVED]);
+          rawTRC20Bal = matchedToken ? (Object.values(matchedToken)[0] / 1e6) : 0;
+          document.getElementById('lblTRC20Balance').innerText = `${rawTRC20Bal.toFixed(2)} YHWH`;
+        }
+
+        // Recursos de Billetera (Energía / Ancho de Banda)
+        const resources = await window.tronWeb.trx.getAccountResources(userAddress);
         document.getElementById('resEnergy').innerText = resources.EnergyLimit ? (resources.EnergyLimit - (resources.EnergyUsed || 0)) : 0;
         document.getElementById('resBandwidth').innerText = resources.freeNetLimit ? (resources.freeNetLimit - (resources.freeNetUsed || 0)) : 0;
 
-        // Balance TRC-10
-        const trc10List = account.assetV2 || [];
-        const token10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
-        rawTRC10Bal = token10 ? token10.value : 0;
-        document.getElementById('lblTRC10Balance').innerText = `${rawTRC10Bal} YHWH`;
-
-        // Balance TRC-20
-        const contract = await window.tronWeb.contract().at(CONFIG.TRC20_APPROVED);
-        const bal20 = await contract.balanceOf(userAddress).call();
-        rawTRC20Bal = bal20 / 1e6;
-        document.getElementById('lblTRC20Balance').innerText = `${rawTRC20Bal.toFixed(2)} YHWH`;
-      } catch (e) { console.error(e); }
+      } catch (e) {
+        console.warn("Aviso al consultar la red:", e.message);
+      } finally {
+        isUpdating = false;
+      }
     }
 
     function setMaxTRC10() { document.getElementById('inputTRC10Amount').value = rawTRC10Bal; }
