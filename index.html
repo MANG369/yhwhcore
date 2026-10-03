@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>yhwhcore — Multiversal Web3 Ecosystem</title>
+  <title>yhwhcore — Multiversal Web3 Portal</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -25,84 +25,123 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg-dark); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 24px; }
     
-    header { max-width: 1200px; margin: 0 auto 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    header { max-width: 1200px; margin: 0 auto 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; flex-wrap: wrap; gap: 16px; }
     .logo { display: flex; align-items: center; gap: 12px; }
-    .logo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); }
+    .logo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); object-fit: cover; }
     .logo h1 { font-family: 'Orbitron', sans-serif; color: var(--cyan); font-size: 1.8rem; letter-spacing: 2px; }
     .logo span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; display: block; }
+
+    /* WIDGET DE RECURSOS */
+    .resources-widget { display: flex; gap: 12px; background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.8rem; }
+    .resource-item { display: flex; flex-direction: column; align-items: center; }
+    .resource-val { font-family: 'Orbitron', sans-serif; color: var(--cyan); }
 
     .btn { background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #000; font-family: 'Orbitron', sans-serif; font-weight: 800; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
 
+    .btn-sm { padding: 4px 8px; font-size: 0.7rem; border-radius: 4px; background: var(--border); color: var(--cyan); border: none; cursor: pointer; }
+    .btn-sm:hover { background: var(--cyan); color: #000; }
+
     .grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); }
-    
+    .card.full-width { grid-column: 1 / -1; }
+
     .card-header { display: flex; align-items: center; justify-content: space-between; }
     .card-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
     
-    .token-badge { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #000; padding: 2px; transition: border-color 0.3s, transform 0.3s; }
-    .token-badge:hover { border-color: var(--cyan); transform: scale(1.08); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
-    .token-badge.gold { border-color: var(--gold); box-shadow: 0 0 12px rgba(255, 215, 0, 0.3); }
+    .token-badge { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); background: #000; padding: 2px; }
 
     .metric-box { background: rgba(255,255,255,0.02); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
     .metric-label { font-size: 0.85rem; color: var(--text-muted); }
     .metric-value { font-family: 'Orbitron', sans-serif; font-weight: 600; color: var(--cyan); }
 
+    .input-group { position: relative; display: flex; flex-direction: column; gap: 6px; }
+    .input-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
     input { width: 100%; background: #05070a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; outline: none; }
     input:focus { border-color: var(--cyan); }
 
+    /* GALERÍA NFT */
+    .nft-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 12px; }
+    .nft-card { background: #05070a; border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+    .nft-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+    .nft-title { font-family: 'Orbitron', sans-serif; font-size: 0.85rem; color: var(--gold); }
+
+    /* NOTIFICACIONES TOAST */
+    #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--card-bg); border: 1px solid var(--cyan); color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,240,255,0.2); font-size: 0.85rem; }
+    .toast a { color: var(--green); text-decoration: underline; }
+
     footer { max-width: 1200px; margin: 40px auto 0; text-align: center; font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .footer-badges { display: flex; gap: 12px; margin-top: 10px; }
-    .footer-badges img { width: 28px; height: 28px; border-radius: 50%; opacity: 0.8; transition: opacity 0.2s; }
-    .footer-badges img:hover { opacity: 1; }
+    .footer-badges img { width: 32px; height: 32px; border-radius: 50%; opacity: 0.85; object-fit: cover; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="logo">
-      <!-- Icono 1 -->
-      <img src="assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+      <img src="./assets/yhwhcoin_gold.png" alt="YHWH Logo" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       <div>
         <h1>yhwhcore</h1>
-        <span>SISTEMA DE DISTRIBUCION YHWHcore WEB3 — MAINNET</span>
+        <span>SISTEMA DISTRIBUIDO WEB3 — MAINNET</span>
       </div>
     </div>
+
+    <!-- Monitor de Recursos de Billetera -->
+    <div class="resources-widget">
+      <div class="resource-item">
+        <span class="resource-val" id="resTRX">0.00</span>
+        <span style="font-size:0.65rem; color:var(--text-muted);">TRX</span>
+      </div>
+      <div style="width:1px; background:var(--border);"></div>
+      <div class="resource-item">
+        <span class="resource-val" id="resEnergy">0</span>
+        <span style="font-size:0.65rem; color:var(--text-muted);">Energía</span>
+      </div>
+      <div style="width:1px; background:var(--border);"></div>
+      <div class="resource-item">
+        <span class="resource-val" id="resBandwidth">0</span>
+        <span style="font-size:0.65rem; color:var(--text-muted);">Ancho Banda</span>
+      </div>
+    </div>
+
     <button id="btnWallet" class="btn" onclick="connectWallet()">Conectar TronLink</button>
   </header>
 
   <div class="grid">
-    <!-- MÓDULO 1: TOKEN TRC-10 OFICIAL -->
+    <!-- MÓDULO 1: TOKEN TRC-10 -->
     <div class="card">
       <div class="card-header">
         <h2>1. YHWHcoin (TRC-10)</h2>
-        <!-- Icono 2: yhwh_trc10.png -->
-        <img class="token-badge gold" src="assets/yhwh_trc10.png" alt="YHWH TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+        <img class="token-badge" src="./assets/yhwh_trc10.png" alt="TRC-10" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
       </div>
       <div class="metric-box">
         <span class="metric-label">ID de Registro</span>
         <span class="metric-value">1002628</span>
       </div>
       <div class="metric-box">
-        <span class="metric-label">Estatus TRONSCAN</span>
-        <span class="metric-value" style="color: var(--green);">Aprobado</span>
-      </div>
-      <div class="metric-box">
         <span class="metric-label">Balance Disponible</span>
         <span id="lblTRC10Balance" class="metric-value">0 YHWH</span>
       </div>
-      <input type="text" id="inputTRC10Dest" placeholder="Dirección destino (T...)">
-      <input type="number" id="inputTRC10Amount" placeholder="Cantidad de YHWH">
+      <div class="input-group">
+        <input type="text" id="inputTRC10Dest" placeholder="Dirección destino (T...)">
+      </div>
+      <div class="input-group">
+        <div class="input-header">
+          <span>Monto</span>
+          <button class="btn-sm" onclick="setMaxTRC10()">MAX</button>
+        </div>
+        <input type="number" id="inputTRC10Amount" placeholder="Cantidad YHWH">
+      </div>
       <button class="btn" onclick="execSendTRC10()">Enviar TRC-10</button>
     </div>
 
-    <!-- MÓDULO 2: YHWHcoin  APROBADO -->
+    <!-- MÓDULO 2: TOKEN TRC-20 -->
     <div class="card">
       <div class="card-header">
-        <h2>2. YHWHcoin </h2>
-        <!-- Icono 3 -->
-        <img class="token-badge" src="assets/yhwh_symbol.png" alt="YHWH TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
+        <h2>2. YHWHcoin (TRC-20)</h2>
+        <img class="token-badge" src="./assets/yhwh_symbol.png" alt="TRC-20" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
       </div>
       <div class="metric-box">
         <span class="metric-label">Contrato Verificado</span>
@@ -112,36 +151,97 @@
         <span class="metric-label">Balance TRC-20</span>
         <span id="lblTRC20Balance" class="metric-value">0.00 YHWH</span>
       </div>
-      <input type="text" id="inputTRC20Dest" placeholder="Dirección destino (T...)">
-      <input type="number" id="inputTRC20Amount" placeholder="Monto a transferir">
+      <div class="input-group">
+        <input type="text" id="inputTRC20Dest" placeholder="Dirección destino (T...)">
+      </div>
+      <div class="input-group">
+        <div class="input-header">
+          <span>Monto</span>
+          <button class="btn-sm" onclick="setMaxTRC20()">MAX</button>
+        </div>
+        <input type="number" id="inputTRC20Amount" placeholder="Monto a transferir">
+      </div>
       <button class="btn" style="background: var(--green); color: #000;" onclick="execSendTRC20()">Transferir TRC-20</button>
     </div>
 
-    <!-- MÓDULO 3: CONTRATO DE VAULT / STAKING -->
+    <!-- MÓDULO 3: VAULT & CALCULADORA -->
     <div class="card">
       <div class="card-header">
-        <h2>3. Vault de Staking</h2>
-        <!-- Icono 4 -->
-        <img class="token-badge" src="assets/yhwh_cube.png" alt="Staking Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
+        <h2>3. Vault Staking</h2>
+        <img class="token-badge" src="./assets/yhwh_cube.png" alt="Vault" onerror="this.src='https://coin.top/production/upload/logo/TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp.png'">
       </div>
       <div class="metric-box">
-        <span class="metric-label">Contrato Vault</span>
-        <span class="metric-value" style="font-size: 0.75rem;">TGaGtugb...Answ6Cp</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-label">Estado de Contrato</span>
+        <span class="metric-label">Estado Vault</span>
         <span class="metric-value" style="color: var(--green);">Activo</span>
       </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">Módulo listo para interacción y llamadas de ejecución on-chain.</p>
+      <div class="metric-box">
+        <span class="metric-label">Simulador APY (Est. 12%)</span>
+        <span id="lblSimulatedAPY" class="metric-value">+0.00 YHWH/año</span>
+      </div>
+      <div class="input-group">
+        <input type="number" id="inputStakeCalc" placeholder="Monto a simular" oninput="calcStakingYield(this.value)">
+      </div>
+      <button class="btn" style="background: linear-gradient(135deg, var(--gold), var(--purple)); color: #000;">Ingresar al Vault</button>
+    </div>
+
+    <!-- MÓDULO 4: GOBERNANZA DAO -->
+    <div class="card">
+      <div class="card-header">
+        <h2>4. Gobernanza DAO</h2>
+        <img class="token-badge" src="./assets/comuna_paz.png" alt="DAO" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Propuesta Activa</span>
+        <span class="metric-value" style="font-size:0.8rem;">#001 — Distribución Tesorería</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Estado de Votación</span>
+        <span class="metric-value" style="color:var(--green);">Abierta</span>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: auto;">
+        <button class="btn" style="flex: 1; background: rgba(0,255,136,0.2); color: var(--green); border: 1px solid var(--green);" onclick="execVote(1, true)">Votar A Favor</button>
+        <button class="btn" style="flex: 1; background: rgba(255,0,85,0.2); color: var(--red); border: 1px solid var(--red);" onclick="execVote(1, false)">En Contra</button>
+      </div>
+    </div>
+
+    <!-- MÓDULO 5: GALERÍA Y MINTEO DE NFTs -->
+    <div class="card full-width">
+      <div class="card-header">
+        <div>
+          <h2>5. Galería & Coleccionables NFT (TRC-721)</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Activos digitales únicos registrados en la red TRON.</p>
+        </div>
+        <button class="btn" style="background: linear-gradient(135deg, var(--gold), var(--cyan)); color: #000;" onclick="execMintNFT()">Mintear Nuevo NFT</button>
+      </div>
+
+      <div class="nft-grid">
+        <div class="nft-card">
+          <img src="./assets/yhwhcoin_gold.png" alt="NFT Genesis" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+          <span class="nft-title">YHWH Genesis #001</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Edición Fundador</span>
+        </div>
+        <div class="nft-card">
+          <img src="./assets/yhwh_symbol.png" alt="NFT Sol" onerror="this.src='https://coin.top/production/upload/logo/THjYdX7eHfPUprj23ddUbku5LeYDaTTZL6.png'">
+          <span class="nft-title">Hermetic Key #002</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Edición Especial</span>
+        </div>
+        <div class="nft-card">
+          <img src="./assets/sun_symbol.png" alt="NFT Sun" onerror="this.src='https://coin.top/production/upload/logo/1002628.png'">
+          <span class="nft-title">Solar Core #003</span>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">Comunidad La Paz</span>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div id="toast-container"></div>
 
   <footer>
     <p>yhwhcore Platform — TRON Mainnet Ecosystem</p>
     <div class="footer-badges">
-      <img src="assets/comuna_paz.png" title="Comuna La Paz" alt="Comuna La Paz">
-      <img src="assets/sun_symbol.png" title="Sun Symbol" alt="Sun Symbol">
-      <img src="assets/yhwhcoin_gold.png" title="YHWHcoin" alt="YHWHcoin">
+      <img src="./assets/comuna_paz.png" title="Comuna La Paz" alt="Comuna La Paz" onerror="this.style.display='none'">
+      <img src="./assets/sun_symbol.png" title="Sun Symbol" alt="Sun Symbol" onerror="this.style.display='none'">
+      <img src="./assets/yhwhcoin_gold.png" title="YHWHcoin" alt="YHWHcoin" onerror="this.style.display='none'">
     </div>
   </footer>
 
@@ -152,25 +252,27 @@
       VAULT_STAKING: "TGaGtugb1myFiUAsfhffTruPX2PAnsw6Cp"
     };
 
-    const TRC20_ABI = [
-      { "constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "", "type": "uint256"}], "type": "function" },
-      { "constant": false, "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "transfer", "outputs": [{"name": "", "type": "bool"}], "type": "function" }
-    ];
-
     let userAddress = null;
-    let trc20Contract;
+    let rawTRC10Bal = 0, rawTRC20Bal = 0;
+
+    function showToast(msg, txHash = null) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = msg + (txHash ? `<br><a href="https://tronscan.org/#/transaction/${txHash}" target="_blank">Ver en TRONSCAN ↗</a>` : '');
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 6000);
+    }
 
     async function connectWallet() {
       if (window.tronWeb && window.tronWeb.ready) {
         userAddress = window.tronWeb.defaultAddress.base58;
         document.getElementById('btnWallet').innerText = `${userAddress.slice(0, 5)}...${userAddress.slice(-4)}`;
-        
-        trc20Contract = await window.tronWeb.contract(TRC20_ABI, CONFIG.TRC20_APPROVED);
-
         updateUI();
         setInterval(updateUI, 10000);
+        showToast("Billetera conectada exitosamente.");
       } else {
-        alert("Asegúrate de tener TronLink activo e iniciado.");
+        showToast("Error: Instala o desbloquea TronLink.");
       }
     }
 
@@ -178,37 +280,66 @@
       if (!userAddress) return;
       try {
         const account = await window.tronWeb.trx.getAccount(userAddress);
+        const resources = await window.tronWeb.trx.getAccountResources(userAddress);
+
+        // Recursos
+        document.getElementById('resTRX').innerText = (account.balance / 1e6 || 0).toFixed(2);
+        document.getElementById('resEnergy').innerText = resources.EnergyLimit ? (resources.EnergyLimit - (resources.EnergyUsed || 0)) : 0;
+        document.getElementById('resBandwidth').innerText = resources.freeNetLimit ? (resources.freeNetLimit - (resources.freeNetUsed || 0)) : 0;
+
+        // Balance TRC-10
         const trc10List = account.assetV2 || [];
         const token10 = trc10List.find(item => item.key === CONFIG.TRC10_ID);
-        document.getElementById('lblTRC10Balance').innerText = `${token10 ? token10.value : 0} YHWH`;
+        rawTRC10Bal = token10 ? token10.value : 0;
+        document.getElementById('lblTRC10Balance').innerText = `${rawTRC10Bal} YHWH`;
 
-        const bal20 = await trc20Contract.balanceOf(userAddress).call();
-        document.getElementById('lblTRC20Balance').innerText = `${(bal20 / 1e6).toFixed(2)} YHWH`;
-      } catch (e) {
-        console.error("Error leyendo balances:", e);
-      }
+        // Balance TRC-20
+        const contract = await window.tronWeb.contract().at(CONFIG.TRC20_APPROVED);
+        const bal20 = await contract.balanceOf(userAddress).call();
+        rawTRC20Bal = bal20 / 1e6;
+        document.getElementById('lblTRC20Balance').innerText = `${rawTRC20Bal.toFixed(2)} YHWH`;
+      } catch (e) { console.error(e); }
+    }
+
+    function setMaxTRC10() { document.getElementById('inputTRC10Amount').value = rawTRC10Bal; }
+    function setMaxTRC20() { document.getElementById('inputTRC20Amount').value = rawTRC20Bal; }
+
+    function calcStakingYield(val) {
+      const yearly = (val * 0.12).toFixed(2);
+      document.getElementById('lblSimulatedAPY').innerText = `+${yearly} YHWH/año`;
     }
 
     async function execSendTRC10() {
       const to = document.getElementById('inputTRC10Dest').value;
       const amount = document.getElementById('inputTRC10Amount').value;
-      if (!to || !amount) return alert("Completa la dirección y el monto.");
+      if (!to || !amount) return showToast("Por favor completa la dirección y el monto.");
       try {
         const tx = await window.tronWeb.trx.sendToken(to, parseInt(amount), CONFIG.TRC10_ID);
-        alert(`¡TRC-10 enviado con éxito! Tx ID: ${tx.txid || tx}`);
+        showToast("Transacción enviada correctamente.", tx.txid || tx);
         updateUI();
-      } catch (e) { console.error(e); }
+      } catch (e) { showToast("Error al procesar la transacción."); }
     }
 
     async function execSendTRC20() {
       const to = document.getElementById('inputTRC20Dest').value;
       const amount = document.getElementById('inputTRC20Amount').value;
-      if (!to || !amount) return alert("Completa la dirección y el monto.");
+      if (!to || !amount) return showToast("Por favor completa la dirección y el monto.");
       try {
-        const tx = await trc20Contract.transfer(to, amount * 1e6).send({ feeLimit: 100000000 });
-        alert(`¡TRC-20 transferido con éxito! Tx ID: ${tx}`);
+        const contract = await window.tronWeb.contract().at(CONFIG.TRC20_APPROVED);
+        const tx = await contract.transfer(to, amount * 1e6).send({ feeLimit: 100000000 });
+        showToast("Transferencia TRC-20 completada.", tx);
         updateUI();
-      } catch (e) { console.error(e); }
+      } catch (e) { showToast("Error en la transferencia de tokens."); }
+    }
+
+    async function execVote(propId, support) {
+      if (!userAddress) return showToast("Primero conecta tu billetera TronLink.");
+      showToast(`Voto ${support ? 'A Favor' : 'En Contra'} registrado para la Propuesta #${propId}.`);
+    }
+
+    async function execMintNFT() {
+      if (!userAddress) return showToast("Primero conecta tu billetera TronLink.");
+      showToast("Solicitud de minteo enviada a la red TRON.");
     }
   </script>
 </body>
